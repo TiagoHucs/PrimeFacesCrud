@@ -4,11 +4,12 @@ import hibernate.HibernateUtil;
 
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import model.Pessoa;
 import dao.PessoaDAO;
@@ -21,30 +22,17 @@ public class PessoaBean implements Serializable {
 	private Pessoa pessoa;
 	private PessoaDAO pessoaDao;
 	private List<Pessoa> pessoas;
-	private List<Pessoa> pessoasPesquisadas;
 	private Integer quantidade;
 	private String retorno;
 
 	public List<Pessoa> getPessoas() {
 		return pessoas;
 	}
-	
-
-	public List<Pessoa> getPessoasPesquisadas() {
-		return pessoasPesquisadas;
-	}
-
-
-	public void setPessoasPesquisadas(List<Pessoa> pessoasPesquisadas) {
-		this.pessoasPesquisadas = pessoasPesquisadas;
-	}
-
 
 	public PessoaBean() throws SQLException {
 		pessoaDao = new PessoaDAOImpl(HibernateUtil.getSessionFactory());
 		pessoa = new Pessoa();
 		pessoas = pessoaDao.recuperarTodos();
-		pessoasPesquisadas = null;
 		setQuantidade(pessoas.size());
 		setRetorno("");
 	}
@@ -54,7 +42,11 @@ public class PessoaBean implements Serializable {
 		
 		Pessoa p2 = pessoaDao.pesquisar(pessoa.getCpf());
 		if(!p2.equals(null)){
-			setRetorno("Registro já existente no banco");
+			System.out.println("Atualizar "+pessoa.getNome());
+			pessoaDao.alterar(pessoa);
+			pessoas = pessoaDao.recuperarTodos();
+			pessoa = new Pessoa();
+			setRetorno("Registro atualizado com sucesso");
 		}else{
 			pessoaDao.salvar(pessoa);
 			pessoas = pessoaDao.recuperarTodos();
@@ -87,9 +79,9 @@ public class PessoaBean implements Serializable {
 		pessoa = new Pessoa();
 	}
 	
-	public void pesquisarCondicional() throws SQLException{
-		System.out.println("chegou aqui");
-		setPessoasPesquisadas(pessoas = pessoaDao.pesquisarCondicional(pessoa));
+	public void pesquisar() throws SQLException{
+		System.out.println("Pesquisar");
+		
 	}
 
 	public Pessoa getPessoa() {
@@ -107,5 +99,14 @@ public class PessoaBean implements Serializable {
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
 	}
+	
+    public void destroyWorld() {
+        addMessage("System Error", "Please try again later.");
+    }
+     
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 
 }

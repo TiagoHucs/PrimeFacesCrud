@@ -8,51 +8,48 @@
 		</f:facet>
 	</h:head>
 	<h:body style="padding:50px;">
-	<h:outputText value="#{PessoaBean.retorno}" />
 		<h:form id="formManterPessoa">
 			<p:panel id="panel" header="Cadastro de Pessoa 3.1" style="align-self: center; margin-bottom:10px;">
 				<p:messages id="messages" />
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel for="nome" value="Nome:" />
-					<p:inputText id="nome" required="true" size="60" value="#{PessoaBean.pessoa.nome}" />
+					<p:inputText id="nome" size="60" value="#{PessoaBean.pessoa.nome}" required="false"/>
 					<p:outputLabel for="cpf" value="CPF:" />
-					<p:inputMask id="cpf" required="true" size="14" mask="999.999.999-99" value="#{PessoaBean.pessoa.cpf}" />
+					<p:inputMask id="cpf" size="14" mask="999.999.999-99" value="#{PessoaBean.pessoa.cpf}" required="false"/>
 					<p:outputLabel for="idade" value="Idade:" />
 					<p:inputMask id="idade" size="3" mask="999" value="#{PessoaBean.pessoa.idade}" />
 					<h:outputLabel for="sexo" value="Sexo" />
-					<h:selectOneMenu id="sexo" value="#{PessoaBean.pessoa.sexo}" required="true" label="Text 3">
+					<h:selectOneMenu id="sexo" value="#{PessoaBean.pessoa.sexo}" required="false" label="Sexo">
 						<f:selectItem itemLabel="selecione" itemValue="" noSelectionOption="true" />
 						<f:selectItem itemLabel="Masculino" itemValue="m" />
 						<f:selectItem itemLabel="Feminino" itemValue="f" />
 					</h:selectOneMenu>
 				</h:panelGrid>
 			</p:panel>
-		
-		<h:commandButton value="Guardar" id="guardar" actionListener="#{PessoaBean.salvar}" styleClass="ui-priority-primary" />
+			<h:commandButton value="Salvar" id="salvar" actionListener="#{PessoaBean.salvar}" styleClass="ui-priority-primary" />
+			<h:commandButton value="Pesquisar" id="pesquisar" actionListener="#{PessoaBean.pesquisar}" styleClass="ui-priority-primary" />
 		</h:form>
-		
 		<p:separator />
-		
 		<h:form id="listaDePessoas">
-		<h:outputText value="Pessoas cadastradas: (#{PessoaBean.quantidade})" />
-		<p:dataTable var="pessoa" value="#{PessoaBean.pessoas}" tableStyleClass="ui-table-columntoggle">
-			<p:column headerText="CPF" priority="1">
-				<h:outputText value="#{pessoa.cpf}" />
-			</p:column>
-			<p:column headerText="Nome" priority="2">
-				<h:outputText value="#{pessoa.nome}" />
-			</p:column>
-			<p:column headerText="Idade" priority="1">
-				<h:outputText value="#{pessoa.idade}" />
-			</p:column>
-			<p:column headerText="Sexo" priority="2">
-				<h:outputText value="#{pessoa.sexo}" />
-			</p:column>
-			<p:column headerText="Ações" priority="2">
-				<h:commandButton value="Editar" id="editar" actionListener="#{PessoaBean.editar(pessoa)}" styleClass="ui-priority-primary" />
-				<h:commandButton value="Excluir" id="remover" actionListener="#{PessoaBean.remover(pessoa)}" styleClass="ui-priority-primary" />
-			</p:column>
-		</p:dataTable>
+			<h:outputText value="Pessoas cadastradas: (#{PessoaBean.quantidade})" />
+			<p:dataTable var="pessoa" value="#{PessoaBean.pessoas}" tableStyleClass="ui-table-columntoggle">
+				<p:column headerText="CPF" priority="1">
+					<h:outputText value="#{pessoa.cpf}" />
+				</p:column>
+				<p:column headerText="Nome" priority="2">
+					<h:outputText value="#{pessoa.nome}" />
+				</p:column>
+				<p:column headerText="Idade" priority="1">
+					<h:outputText value="#{pessoa.idade}" />
+				</p:column>
+				<p:column headerText="Sexo" priority="2">
+					<h:outputText value="#{pessoa.sexo}" />
+				</p:column>
+				<p:column headerText="Ações" priority="2">
+					<h:commandButton value="Editar" id="editar" actionListener="#{PessoaBean.editar(pessoa)}" styleClass="ui-priority-primary" />
+					<h:commandButton value="Excluir" id="remover" actionListener="#{PessoaBean.remover(pessoa)}" styleClass="ui-priority-primary" />
+				</p:column>
+			</p:dataTable>
 		</h:form>
 	</h:body>
 </f:view>
