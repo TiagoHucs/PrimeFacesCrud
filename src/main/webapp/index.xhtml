@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Cadastro Pessoa</title>
+		</f:facet>
+	</h:head>
+	<h:body style="padding:50px;">
+	<h:outputText value="#{PessoaBean.retorno}" />
+		<h:form id="formManterPessoa">
+			<p:panel id="panel" header="Cadastro de Pessoa 3.1" style="align-self: center; margin-bottom:10px;">
+				<p:messages id="messages" />
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel for="nome" value="Nome:" />
+					<p:inputText id="nome" required="true" size="60" value="#{PessoaBean.pessoa.nome}" />
+					<p:outputLabel for="cpf" value="CPF:" />
+					<p:inputMask id="cpf" required="true" size="14" mask="999.999.999-99" value="#{PessoaBean.pessoa.cpf}" />
+					<p:outputLabel for="idade" value="Idade:" />
+					<p:inputMask id="idade" size="3" mask="999" value="#{PessoaBean.pessoa.idade}" />
+					<h:outputLabel for="sexo" value="Sexo" />
+					<h:selectOneMenu id="sexo" value="#{PessoaBean.pessoa.sexo}" required="true" label="Text 3">
+						<f:selectItem itemLabel="selecione" itemValue="" noSelectionOption="true" />
+						<f:selectItem itemLabel="Masculino" itemValue="m" />
+						<f:selectItem itemLabel="Feminino" itemValue="f" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+			</p:panel>
+		
+		<h:commandButton value="Guardar" id="guardar" actionListener="#{PessoaBean.salvar}" styleClass="ui-priority-primary" />
+		</h:form>
+		
+		<p:separator />
+		
+		<h:form id="listaDePessoas">
+		<h:outputText value="Pessoas cadastradas: (#{PessoaBean.quantidade})" />
+		<p:dataTable var="pessoa" value="#{PessoaBean.pessoas}" tableStyleClass="ui-table-columntoggle">
+			<p:column headerText="CPF" priority="1">
+				<h:outputText value="#{pessoa.cpf}" />
+			</p:column>
+			<p:column headerText="Nome" priority="2">
+				<h:outputText value="#{pessoa.nome}" />
+			</p:column>
+			<p:column headerText="Idade" priority="1">
+				<h:outputText value="#{pessoa.idade}" />
+			</p:column>
+			<p:column headerText="Sexo" priority="2">
+				<h:outputText value="#{pessoa.sexo}" />
+			</p:column>
+			<p:column headerText="Ações" priority="2">
+				<h:commandButton value="Editar" id="editar" actionListener="#{PessoaBean.editar(pessoa)}" styleClass="ui-priority-primary" />
+				<h:commandButton value="Excluir" id="remover" actionListener="#{PessoaBean.remover(pessoa)}" styleClass="ui-priority-primary" />
+			</p:column>
+		</p:dataTable>
+		</h:form>
+	</h:body>
+</f:view>
+</html>
